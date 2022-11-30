@@ -1,30 +1,47 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div class="app"></div>
+  <post-form @create="createPost" />
+  <post-list v-bind:posts="posts" @remove="removePost" />
+  <!--  Короткая завпись v-bind: -->
+  <!--  <post-list :posts="posts" />-->
 </template>
 
+<script>
+import PostForm from "@/components/PostForm";
+import PostList from "@/components/PostList";
+export default {
+  components: {
+    PostList,
+    PostForm,
+  },
+  data() {
+    return {
+      posts: [
+        { id: 1, title: "js1", body: "des1" },
+        { id: 2, title: "js2", body: "des2" },
+        { id: 3, title: "js3", body: "des3" },
+      ],
+    };
+  },
+  methods: {
+    createPost(post) {
+      this.posts.push(post);
+    },
+    removePost(post) {
+      this.posts = this.posts.filter((p) => post.id !== p.id);
+    },
+  },
+};
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+.app {
+  padding: 20px;
 }
 </style>
